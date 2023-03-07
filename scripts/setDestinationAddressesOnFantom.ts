@@ -1,0 +1,20 @@
+import { ethers, upgrades } from "hardhat";
+
+async function main() {
+
+    const Bridge = await ethers.getContractFactory("bridgeTokenToKava");
+    const bridge = await Bridge.attach(process.env.FANTOM_TOKEN_LOCKER);
+
+    let tx = await bridge.setDestinationAddress(process.env.KAVA_TOKEN_ADDRESS);
+    await tx.wait();
+    console.log("Destination address is set");
+
+
+}
+
+// We recommend this pattern to be able to use async/await everywhere
+// and properly handle errors.
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});
